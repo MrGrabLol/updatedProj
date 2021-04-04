@@ -1,17 +1,16 @@
 package com.hseproject.proj.service.Food;
 
+import com.hseproject.proj.model.Category;
 import com.hseproject.proj.model.Food;
-import com.hseproject.proj.model.FoodType;
 import com.hseproject.proj.model.Tag;
 import com.hseproject.proj.repo.FoodRepo;
 import com.hseproject.proj.repo.TagRepo;
 import com.hseproject.proj.repo.TypeRepo;
 import com.hseproject.proj.view.FoodAddView;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.metrics.StartupStep;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,14 +19,20 @@ import java.util.stream.StreamSupport;
 @Service
 public class FoodServiceImpl implements FoodService {
 
-    @Autowired
-    FoodRepo foodRepository;
+    final FoodRepo foodRepository;
 
-    @Autowired
-    TagRepo tagRepo;
+    final TagRepo tagRepo;
 
-    @Autowired
-    TypeRepo typeRepo;
+    final TypeRepo typeRepo;
+
+    final EntityManager em;
+
+    public FoodServiceImpl(FoodRepo foodRepository, TagRepo tagRepo, TypeRepo typeRepo, EntityManager em) {
+        this.foodRepository = foodRepository;
+        this.tagRepo = tagRepo;
+        this.typeRepo = typeRepo;
+        this.em = em;
+    }
 
     @Override
     public void add(FoodAddView food) {
@@ -36,8 +41,8 @@ public class FoodServiceImpl implements FoodService {
         for (Long c : comp) {
             tags.add(tagRepo.findById(c).orElse(null));
         }
-        FoodType type = typeRepo.findById(food.type).orElse(null);
-        Food f = new Food(food.name, food.price, food.composition, tags, type);
+        Category type = typeRepo.findById(food.type).orElse(null);
+        Food f = new Food(food.name, food.price, tags, type);
         foodRepository.save(f);
     }
 
@@ -59,6 +64,12 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public List<Food> getAll() {
         return StreamSupport.stream(foodRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    }
+
+    public List<Food> getFoodByCategory(Category id) {
+        TypedQuery<Food> query = em.createQuery("SELECT m FROM Food m where m.category = :category", Food.class);
+        query.setParameter("category", id);
+        return query.getResultList();
     }
 
 }

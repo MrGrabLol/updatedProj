@@ -1,6 +1,6 @@
 package com.hseproject.proj.service.FoodType;
 
-import com.hseproject.proj.model.FoodType;
+import com.hseproject.proj.model.Category;
 import com.hseproject.proj.view.TypeAddView;
 
 import java.util.List;
@@ -9,11 +9,11 @@ public interface FoodTypeService {
 
     void add(TypeAddView type);
 
-    void edit(FoodType type);
+    void edit(Category type);
 
-    void delete(FoodType type);
+    void delete(Category type);
 
-    FoodType getById(Long id);
+    Category getById(Long id);
 
-    List<FoodType> getAll();
+    List<Category> getAll();
 }

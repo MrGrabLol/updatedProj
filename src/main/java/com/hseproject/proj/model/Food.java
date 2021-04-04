@@ -3,45 +3,59 @@ package com.hseproject.proj.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.List;
 
 @Entity
+@Table(name = "meal")
 @Data
-
 public class Food {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
 
-    private int price;
+    private double price;
 
-    private String composition;
+    @ManyToMany
+    private List<Tag> tag;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    private List<Tag> tags;
+    @ManyToOne
+    private Category category;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    private FoodType type;
+    @OneToOne
+    @MapsId
+    private MealEV mealEV;
+
+    private String image;
+
+    private String previewImage;
 
     public Food() {}
 
-    public Food(String name, int price, String composition, List<Tag> tags, FoodType type) {
+    public Food(String name, int price, List<Tag> tags, Category category, MealEV mealEV) {
         this.name = name;
         this.price = price;
-        this.composition = composition;
-        this.tags = tags;
-        this.type = type;
+        this.tag = tags;
+        this.category = category;
+        this.mealEV = mealEV;
     }
 
-    public FoodType getType() {
-        return type;
+    public Food(String name, int price, List<Tag> tags, Category category) {
+        this.name = name;
+        this.price = price;
+        this.tag = tags;
+        this.category = category;
     }
 
-    public void setType(FoodType type) {
-        this.type = type;
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category type) {
+        this.category = type;
     }
 
     public String getName() {
@@ -52,36 +66,20 @@ public class Food {
         this.name = name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public String getComposition() {
-        return composition;
-    }
-
-    public void setComposition(String composition) {
-        this.composition = composition;
-    }
-
     public List<Tag> getTags() {
-        return tags;
+        return tag;
     }
 
     public void setTags(List<Tag> tags) {
-        this.tags = tags;
+        this.tag = tags;
     }
 
-    @Override
-    public String toString() {
-        return "Food{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", composition='" + composition + '\'' +
-                '}';
-    }
 }

@@ -1,6 +1,6 @@
 package com.hseproject.proj.service.FoodType;
 
-import com.hseproject.proj.model.FoodType;
+import com.hseproject.proj.model.Category;
 import com.hseproject.proj.repo.TypeRepo;
 import com.hseproject.proj.view.TypeAddView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,27 +18,27 @@ public class FoodTypeServiceImpl implements FoodTypeService {
 
     @Override
     public void add(TypeAddView type) {
-        FoodType t = new FoodType(type.name);
+        Category t = new Category(type.name);
         foodTypeRepository.save(t);
     }
 
     @Override
-    public void edit(FoodType type) {
+    public void edit(Category type) {
         foodTypeRepository.save(type);
     }
 
     @Override
-    public void delete(FoodType type) {
+    public void delete(Category type) {
         foodTypeRepository.save(type);
     }
 
     @Override
-    public FoodType getById(Long id) {
+    public Category getById(Long id) {
         return foodTypeRepository.findById(id).orElse(null);
     }
 
     @Override
-    public List<FoodType> getAll() {
+    public List<Category> getAll() {
         return StreamSupport.stream(foodTypeRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 

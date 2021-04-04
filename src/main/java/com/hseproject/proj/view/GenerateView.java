@@ -1,11 +1,14 @@
 package com.hseproject.proj.view;
 
+import com.hseproject.proj.model.Category;
+import com.hseproject.proj.model.Tag;
+
 import java.util.List;
 
 public class GenerateView {
 
-    public List<Long> type;
+    public List<Category> type;
 
-    public List<Long> tags;
+    public List<Tag> tags;
 
 }

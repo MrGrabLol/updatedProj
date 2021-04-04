@@ -5,7 +5,7 @@ import com.hseproject.proj.view.TypeAddView;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/type")
+@RequestMapping("/category")
 public class FoodTypeController {
 
     final
@@ -17,7 +17,7 @@ public class FoodTypeController {
 
     @GetMapping()
     public void getFoodType() {
-        foodTypeService.getAll().forEach(System.out::println);
+        foodTypeService.getAll();
     }
 
     @PostMapping()

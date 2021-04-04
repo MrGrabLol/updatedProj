@@ -1,7 +1,7 @@
 package com.hseproject.proj.service.Food;
 
+import com.hseproject.proj.model.Category;
 import com.hseproject.proj.model.Food;
-import com.hseproject.proj.model.FoodType;
 import com.hseproject.proj.view.FoodAddView;
 
 import java.util.List;
@@ -17,5 +17,7 @@ public interface FoodService {
     Food getById(Long id);
 
     List<Food> getAll();
+
+    List<Food> getFoodByCategory(Category id);
 }
 
