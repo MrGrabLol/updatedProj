@@ -4,18 +4,23 @@ import com.hseproject.proj.model.AuthModel;
 import com.hseproject.proj.model.User;
 import com.hseproject.proj.view.AuthView;
 import com.hseproject.proj.view.SignUpView;
+import com.hseproject.proj.view.UserView;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 @Service
 public class UserInterfaceImpl implements UserService {
 
-    final EntityManager em;
+    final
+    EntityManager em;
 
     public UserInterfaceImpl(EntityManager em) {
         this.em = em;
@@ -44,6 +49,7 @@ public class UserInterfaceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public Long signUp(SignUpView user) {
         AuthModel model = new AuthModel(user.login, user.password);
         em.persist(model);
@@ -53,7 +59,8 @@ public class UserInterfaceImpl implements UserService {
     }
 
     @Override
-    public User getUser(Long id) {
-        return em.find(User.class, id);
+    public UserView getUser(Long id) {
+        User user = em.find(User.class, id);
+        return new UserView(user.getId(), user.getPhone(), user.getBonus());
     }
 }

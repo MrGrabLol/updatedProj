@@ -1,5 +1,9 @@
 package com.hseproject.proj.view;
 
+import com.hseproject.proj.model.Category;
+import com.hseproject.proj.model.MealEV;
+import com.hseproject.proj.model.Tag;
+
 import java.util.List;
 
 public class FoodAddView {
@@ -8,9 +12,11 @@ public class FoodAddView {
 
     public Integer price;
 
-    public String composition;
+    public List<Tag> tags;
 
-    public List<Long> tags;
+    public Category type;
 
-    public Long type;
+    public String image;
+
+    public MealEvAddView mealData;
 }

@@ -1,9 +1,9 @@
 package com.hseproject.proj.service.User;
 
-import com.hseproject.proj.model.AuthModel;
-import com.hseproject.proj.model.User;
+
 import com.hseproject.proj.view.AuthView;
 import com.hseproject.proj.view.SignUpView;
+import com.hseproject.proj.view.UserView;
 
 public interface UserService {
 
@@ -11,5 +11,5 @@ public interface UserService {
 
     Long signUp(SignUpView user);
 
-    User getUser(Long id);
+    UserView getUser(Long id);
 }

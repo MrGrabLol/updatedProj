@@ -2,6 +2,7 @@ package com.hseproject.proj.service.Food;
 
 import com.hseproject.proj.model.Category;
 import com.hseproject.proj.model.Food;
+import com.hseproject.proj.model.MealEV;
 import com.hseproject.proj.model.Tag;
 import com.hseproject.proj.repo.FoodRepo;
 import com.hseproject.proj.repo.TagRepo;
@@ -36,13 +37,10 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public void add(FoodAddView food) {
-        List<Long> comp = food.tags;
-        List<Tag> tags = new ArrayList<>();
-        for (Long c : comp) {
-            tags.add(tagRepo.findById(c).orElse(null));
-        }
-        Category type = typeRepo.findById(food.type).orElse(null);
-        Food f = new Food(food.name, food.price, tags, type);
+        Category type = food.type;
+        MealEV mealEV = new MealEV(food.mealData.lipids, food.mealData.proteins, food.mealData.hydr,
+                food.mealData.energy, food.mealData.about);
+        Food f = new Food(food.name, food.price, food.tags, type, mealEV, food.image);
         foodRepository.save(f);
     }
 

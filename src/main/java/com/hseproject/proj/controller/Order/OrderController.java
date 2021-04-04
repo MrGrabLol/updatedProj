@@ -3,6 +3,7 @@ package com.hseproject.proj.controller.Order;
 import com.hseproject.proj.model.Order;
 import com.hseproject.proj.service.Order.OrderService;
 import com.hseproject.proj.view.CreateOrderView;
+import com.hseproject.proj.view.MyOrderView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ public class OrderController {
     }
 
     @GetMapping("/my_orders")
-    public List<Order> getMyOrders(@RequestParam("id") Long id) {
+    public List<MyOrderView> getMyOrders(@RequestParam("id") Long id) {
         return orderService.getOrders(id);
     }
 

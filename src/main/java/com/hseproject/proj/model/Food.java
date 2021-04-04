@@ -25,13 +25,10 @@ public class Food {
     @ManyToOne
     private Category category;
 
-    @OneToOne
-    @MapsId
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
     private MealEV mealEV;
 
     private String image;
-
-    private String previewImage;
 
     public Food() {}
 
@@ -48,6 +45,15 @@ public class Food {
         this.price = price;
         this.tag = tags;
         this.category = category;
+    }
+
+    public Food(String name, double price, List<Tag> tag, Category category, MealEV mealEV, String image) {
+        this.name = name;
+        this.price = price;
+        this.tag = tag;
+        this.category = category;
+        this.mealEV = mealEV;
+        this.image = image;
     }
 
     public Category getCategory() {

@@ -5,6 +5,7 @@ import com.hseproject.proj.model.User;
 import com.hseproject.proj.service.User.UserService;
 import com.hseproject.proj.view.AuthView;
 import com.hseproject.proj.view.SignUpView;
+import com.hseproject.proj.view.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public User getUser(@RequestParam("id") Long id) {
+    public UserView getUser(@RequestParam("id") Long id) {
         return userService.getUser(id);
     }
 

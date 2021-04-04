@@ -1,8 +1,11 @@
 package com.hseproject.proj.controller.Tag;
 
+import com.hseproject.proj.model.Tag;
 import com.hseproject.proj.service.Tag.TagService;
 import com.hseproject.proj.view.TagAddView;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/tag")
@@ -16,8 +19,8 @@ public class TagController {
     }
 
     @GetMapping()
-    public void getTag() {
-        tagService.getAll();
+    public List<Tag> getTag() {
+        return tagService.getAll();
     }
 
     @PostMapping()
