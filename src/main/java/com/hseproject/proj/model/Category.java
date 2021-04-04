@@ -8,18 +8,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name = "category")
 @Data
 @NoArgsConstructor
-public class FoodType {
+public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String value;
+    private String name;
 
-    public FoodType (String value) {
-        this.value = value;
+    public Category(String value) {
+        this.name = value;
     }
 }

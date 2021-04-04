@@ -17,7 +17,7 @@ public class TagController {
 
     @GetMapping()
     public void getTag() {
-        tagService.getAll().forEach(System.out::println);
+        tagService.getAll();
     }
 
     @PostMapping()

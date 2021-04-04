@@ -1,7 +1,9 @@
 package com.hseproject.proj.repo;
 
-import com.hseproject.proj.model.FoodType;
+import com.hseproject.proj.model.Category;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface TypeRepo extends CrudRepository<FoodType, Long> {
+@Repository
+public interface TypeRepo extends CrudRepository<Category, Long> {
 }
