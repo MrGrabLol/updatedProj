@@ -11,5 +11,7 @@ import java.util.List;
 @Repository
 public interface FoodRepo extends CrudRepository<Food, Long> {
 
+    List<Food> findByCategory(Category category);
+
     List<Food> findByCategoryAndTagContains(Category type, Tag tag);
 }

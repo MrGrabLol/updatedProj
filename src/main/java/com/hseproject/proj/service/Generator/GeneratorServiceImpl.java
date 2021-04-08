@@ -38,8 +38,12 @@ public class GeneratorServiceImpl implements GeneratorService {
         List<Food> out = new ArrayList<>();
         for (Category type : types) {
             List<Food> all = new ArrayList<>();
-            for (Tag tag : tags) {
-                all = foodRepo.findByCategoryAndTagContains(type, tag);
+            if (tags == null || tags.isEmpty()) {
+                all = foodRepo.findByCategory(type);
+            } else {
+                for (Tag tag : tags) {
+                    all = foodRepo.findByCategoryAndTagContains(type, tag);
+                }
             }
             out.add(all.get(new Random().nextInt(all.size())));
         }

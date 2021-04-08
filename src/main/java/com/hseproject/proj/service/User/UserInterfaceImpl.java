@@ -7,6 +7,7 @@ import com.hseproject.proj.view.SignUpView;
 import com.hseproject.proj.view.UserView;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -26,12 +27,14 @@ public class UserInterfaceImpl implements UserService {
         this.em = em;
     }
 
+    final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     @Override
     public Long auth(AuthView authView) {
         AuthModel model;
         TypedQuery<AuthModel> authModel = em.createQuery("SELECT a FROM auth_model a where a.login like :login and a" +
                 ".password like :password", AuthModel.class);
-        authModel.setParameter("password", authView.password);
+        authModel.setParameter("password", bCryptPasswordEncoder.encode(authView.password));
         authModel.setParameter("login", authView.login);
         try {
             model = authModel.getSingleResult();
@@ -51,7 +54,7 @@ public class UserInterfaceImpl implements UserService {
     @Override
     @Transactional
     public Long signUp(SignUpView user) {
-        AuthModel model = new AuthModel(user.login, user.password);
+        AuthModel model = new AuthModel(user.login, bCryptPasswordEncoder.encode(user.password));
         em.persist(model);
         User u = new User(model, user.phone);
         em.persist(u);
