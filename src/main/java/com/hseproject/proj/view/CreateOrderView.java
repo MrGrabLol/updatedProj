@@ -10,5 +10,5 @@ public class CreateOrderView {
 
     public List<Integer> amount;
 
-    public Long clientId;
+    public String login;
 }

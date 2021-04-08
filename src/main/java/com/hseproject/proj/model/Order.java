@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -15,6 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,13 +43,18 @@ public class Order {
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false, updatable = false, insertable = false)
+    @JoinColumn(nullable = false)
     private User customerId;
+
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
     public Order(Map<Food, Integer> food, OrderStatus status, double price, User customerId) {
         this.food = food;
         this.status = status;
         this.price = price;
         this.customerId = customerId;
+        date = Calendar.getInstance().getTime();
     }
 }

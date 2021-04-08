@@ -44,7 +44,7 @@ public class FoodController {
         return generatorService.generate(view);
     }
 
-    @GetMapping("/meals")
+    @PostMapping("/meals")
     public List<Food> getMealsByCategory(@RequestBody Category category) {
         return foodService.getFoodByCategory(category);
     }

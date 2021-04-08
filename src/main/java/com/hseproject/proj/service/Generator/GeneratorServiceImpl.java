@@ -33,7 +33,6 @@ public class GeneratorServiceImpl implements GeneratorService {
 
     @Override
     public List<Food> generate(GenerateView view) {
-        Random random = new Random();
         List<Category> types = view.type;
         List<Tag> tags = view.tags;
         List<Food> out = new ArrayList<>();
@@ -42,7 +41,7 @@ public class GeneratorServiceImpl implements GeneratorService {
             for (Tag tag : tags) {
                 all = foodRepo.findByCategoryAndTagContains(type, tag);
             }
-            out.add(all.get(random.nextInt(all.size())));
+            out.add(all.get(new Random().nextInt(all.size())));
         }
         return out;
     }
