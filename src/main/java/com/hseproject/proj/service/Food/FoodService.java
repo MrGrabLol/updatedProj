@@ -19,5 +19,6 @@ public interface FoodService {
     List<Food> getAll();
 
     List<Food> getFoodByCategory(Category id);
+
 }
 

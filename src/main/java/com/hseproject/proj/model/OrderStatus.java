@@ -1,6 +1,6 @@
 package com.hseproject.proj.model;
 
-public enum  OrderStatus {
+public enum OrderStatus {
     CREATED,
     IN_PROGRESS,
     READY,

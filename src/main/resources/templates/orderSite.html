@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title>Admin</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1>Заказы</h1>
+    <h2>Активные заказы</h2>
+    <div th:each="ord : ${orders}" class="alert alert-info mt-2">
+        <h3 th:text="'Номер заказа: ' + ${ord.id}"></h3>
+        <h5>Блюда в заказе</h5>
+        <div th:each="food : ${ord.food}" class="alert alert-info mt-2">
+            <p th:text="'Блюдо: ' + ${food.key.name}"></p>
+            <p th:text="'Количество: ' + ${food.value}"></p>
+        </div>
+        <p th:text="'Общая стоимость: ' + ${ord.price}"></p>
+        <p th:text="'Статус: ' + ${ord.status}"></p>
+        <a th:href="'/orders/setNextStatus/' + ${ord.id}" class="btn btn-warning">Следующий статус</a>
+    </div>
+    <br>
+</div>
+</body>
+</html>

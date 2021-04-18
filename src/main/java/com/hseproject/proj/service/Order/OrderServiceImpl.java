@@ -7,6 +7,7 @@ import com.hseproject.proj.model.OrderStatus;
 import com.hseproject.proj.model.User;
 import com.hseproject.proj.view.CreateOrderView;
 import com.hseproject.proj.view.MyOrderView;
+import com.hseproject.proj.view.SiteOrderView;
 import lombok.val;
 import org.apache.commons.math3.util.Precision;
 import org.springframework.http.ResponseEntity;
@@ -83,5 +84,45 @@ public class OrderServiceImpl implements OrderService{
         } catch (Exception e) {
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public List<SiteOrderView> getActiveOrders() {
+        TypedQuery<Order> orderQuery = em.createQuery("SELECT o FROM orders o WHERE not o.status = :status ORDER BY o" +
+                        ".id DESC",
+                Order.class);
+        orderQuery.setParameter("status", OrderStatus.FINISHED);
+        try {
+            List<Order> orders = orderQuery.getResultList();
+            List<SiteOrderView> myOrderViews = new ArrayList<>();
+            for (Order o: orders) {
+                SiteOrderView order = new SiteOrderView();
+                order.id = o.getId();
+                order.food = o.getFood();
+                order.price = o.getPrice();
+                order.status = switch (o.getStatus()) {
+                    case CREATED -> "Создан";
+                    case IN_PROGRESS -> "В работе";
+                    case READY -> "Готов к выдаче";
+                    case FINISHED -> "Выдан";
+                };
+                myOrderViews.add(order);
+            }
+            return new ArrayList<>(myOrderViews);
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+
+    @Transactional
+    @Override
+    public void setNextStatus(Long id) {
+        Order order = em.find(Order.class, id);
+        switch (order.getStatus()) {
+            case CREATED -> order.setStatus(OrderStatus.IN_PROGRESS);
+            case IN_PROGRESS -> order.setStatus(OrderStatus.READY);
+            case READY -> order.setStatus(OrderStatus.FINISHED);
+        }
+        em.persist(order);
     }
 }
