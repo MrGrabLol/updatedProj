@@ -1,5 +1,6 @@
 package com.hseproject.proj.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 @Entity(name = "tag")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Tag {
 
     @Id

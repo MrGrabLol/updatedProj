@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -27,6 +26,8 @@ public class FoodServiceImpl implements FoodService {
     final TypeRepo typeRepo;
 
     final EntityManager em;
+
+    final static Tag BAD_TAG = new Tag(11, "Всички ястия");
 
     public FoodServiceImpl(FoodRepo foodRepository, TagRepo tagRepo, TypeRepo typeRepo, EntityManager em) {
         this.foodRepository = foodRepository;
@@ -61,13 +62,22 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public List<Food> getAll() {
-        return StreamSupport.stream(foodRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        return removeTag(StreamSupport.stream(foodRepository.findAll().spliterator(), false).collect(Collectors.toList()));
     }
 
     public List<Food> getFoodByCategory(Category id) {
         TypedQuery<Food> query = em.createQuery("SELECT m FROM Food m where m.category = :category", Food.class);
         query.setParameter("category", id);
-        return query.getResultList();
+        return removeTag(query.getResultList());
+    }
+
+    private List<Food> removeTag(List<Food> foods) {
+        foods.forEach(f -> {
+            List<Tag> tags = f.getTags();
+            tags.remove(BAD_TAG);
+            f.setTags(tags);
+        });
+        return foods;
     }
 
 }
